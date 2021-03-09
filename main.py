@@ -35,7 +35,7 @@ def main():
     try:
         tokenValue = credential.credentials[1].get_token('https://vault.azure.net/.default')
     except Exception as ex:
-        print("Failed to get token: " + ex)
+        print("Failed to get token: {}".format(ex))
     else:
         print(tokenValue)
     print("Pass tokenValue")
@@ -45,7 +45,7 @@ def main():
     try:
         KEY = client.get_secret(secret).value
     except Exception as ex:
-        print("Failed to get secret: " + ex)
+        print("Failed to get secret: {}".format(ex))
     else:
         print(KEY)
     print("Pass secret key")
