@@ -17,7 +17,7 @@ def main():
     print('\nInput parameters are below:\n')
     for o, a in opts:
         if o == '--subscriptionid':
-            print('--subscriptionid=={}'.format(a))
+            print('--subscriptionid={}'.format(a))
             subscriptionid = a
         elif o == '--clientid':
             print('--clientid={}'.format(a))
@@ -28,9 +28,6 @@ def main():
         elif o == '--keyvault':
             akv_url = 'https://' + a + '.vault.azure.net'
             print('--keyvault={0}; keyvauult URL: {1}'.format(a, akv_url))
-            
-            
-    
     
     credential = DefaultAzureCredential()
     print("\nPass Default credential configuration")
@@ -54,5 +51,6 @@ def main():
     print("Pass secret key")
 
 if __name__ == '__main__':
+    print("demo starts")
     main()
 
