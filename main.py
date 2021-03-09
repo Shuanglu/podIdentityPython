@@ -1,4 +1,4 @@
-import os
+import os,sys,getopt
 from azure.keyvault.secrets import SecretClient
 from azure.identity import DefaultAzureCredential, AzureCliCredential, ChainedTokenCredential, ManagedIdentityCredential, EnvironmentCredential
 
@@ -9,9 +9,31 @@ from azure.identity import DefaultAzureCredential, AzureCliCredential, ChainedTo
 
 
 def main():
-    akv_url = 'https://testslkv.vault.azure.net'
+    try:
+        opts, args = getopt.getopt(sys.argv[1:], "", ["subscriptionid=", "clientid=", "resourcegroup=", "keyvault="])
+    except getopt.GetoptError as err:
+        print(err)
+        exit(2)
+    print('\nInput parameters are below:\n')
+    for o, a in opts:
+        if o == '--subscriptionid':
+            print('--subscriptionid=={}'.format(a))
+            subscriptionid = a
+        elif o == '--clientid':
+            print('--clientid={}'.format(a))
+            clientid = a
+        elif o == '--resourcegroup':
+            print('--resourcegroup={}'.format(a))
+            resourcegroup = a
+        elif o == '--keyvault':
+            akv_url = 'https://' + a + '.vault.azure.net'
+            print('--keyvault={0}; keyvauult URL: {1}'.format(a, akv_url))
+            
+            
+    
+    
     credential = DefaultAzureCredential()
-    print("Pass Default credential configuration")
+    print("\nPass Default credential configuration")
     #print out the token value used to access the keyvault
     try:
         tokenValue = credential.credentials[1].get_token('https://vault.azure.net/.default')
