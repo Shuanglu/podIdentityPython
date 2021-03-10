@@ -1,4 +1,4 @@
-import os,sys,getopt
+import os,sys,getopt, logging
 from azure.keyvault.secrets import SecretClient
 from azure.identity import DefaultAzureCredential, AzureCliCredential, ChainedTokenCredential, ManagedIdentityCredential, EnvironmentCredential
 
@@ -9,6 +9,8 @@ from azure.identity import DefaultAzureCredential, AzureCliCredential, ChainedTo
 
 
 def main():
+    logger = logging.getLogger('azure')
+    logger.setLevel(logging.DEBUG)
     try:
         opts, args = getopt.getopt(sys.argv[1:], "", ["subscriptionid=", "clientid=", "resourcegroup=", "keyvault="])
     except getopt.GetoptError as err:
@@ -29,11 +31,11 @@ def main():
             akv_url = 'https://' + a + '.vault.azure.net'
             print('--keyvault={0}; keyvauult URL: {1}'.format(a, akv_url))
     
-    credential = DefaultAzureCredential()
+    credential = DefaultAzureCredential(logging_enable=True)
     print("\nPass Default credential configuration")
     #print out the token value used to access the keyvault
     try:
-        tokenValue = credential.credentials[1].get_token('https://vault.azure.net/.default')
+        tokenValue = credential.credentials[1].get_token('https://vault.azure.net/.default', logging_enable=True)
     except Exception as ex:
         print("Failed to get token: {}".format(ex))
     else:
